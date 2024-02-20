@@ -1,15 +1,18 @@
-export class Client {
-    id_Client: number;
-    nameC: string;
-    phoneNumber: string;
-    reference: string;
+import * as mongoose from 'mongoose';
+import { OrderSchema, Order } from './order.model';
 
-    constructor(id: number, name: string, phoneNumber: string, ref: string) {
-        this.id_Client = id;
-        this.nameC = name;
-        this.phoneNumber = phoneNumber;
-        this.reference = ref;
-    }
+export const ClientSchema = new mongoose.Schema({
+  nameC: String,
+  phoneNumber: String,
+  reference: String,
+  orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+});
 
-    // You can add methods related to managing client information here
+export interface Client extends mongoose.Document {
+  nameC: string;
+  phoneNumber: string;
+  reference: string;
+  orders: Order[];
 }
+
+export const ClientModel = mongoose.model<Client>('Client', ClientSchema);
