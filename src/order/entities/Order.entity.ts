@@ -3,8 +3,8 @@
 import * as mongoose from 'mongoose';
 
 export const OrderSchema = new mongoose.Schema({
-  totalPrice: Number,
-  status: String,
+  totalPrice: { type: Number, required: true },
+  status: { type: String, required: true },
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   invoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoice', unique: true },

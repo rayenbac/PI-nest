@@ -3,8 +3,8 @@
 import * as mongoose from 'mongoose';
 
 export const InvoiceSchema = new mongoose.Schema({
-  dueDate: Date,
-  refInvoice: String,
+  dueDate: { type: Date, required: true },
+  refInvoice:{ type: String, required: true },
 });
 
 export interface Invoice extends mongoose.Document {

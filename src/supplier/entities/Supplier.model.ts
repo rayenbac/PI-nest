@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
 
 export const SupplierSchema = new mongoose.Schema({
-  nameS: String,
-  contactInfo: String,
+  nameS:{ type: String, required: true },
+  contactInfo: { type: String, required: true },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }], 
 });
 
