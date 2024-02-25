@@ -6,10 +6,12 @@ import { databaseProviders } from 'src/config/database.config';
 import { AuthController } from 'src/user/controllers/auth.controller';
 import { AuthService } from 'src/user/services/auth.service';
 import { SessionMiddleware } from 'src/user/entities/session.middleware';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
+  
   controllers: [UserController,AuthController],
-  providers: [UserService, UserModel,AuthService,
+  providers: [UserService, UserModel,AuthService,JwtService,
     ...databaseProviders,
     { provide: 'USER_MODEL', useValue: UserModel }, 
 ],
