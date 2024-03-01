@@ -8,13 +8,16 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { CompanyModule } from './company/company.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './user/entities/constants';
 
 @Module({
   imports: [UserModule, ClientModule, OrderModule, ProductModule, SupplierModule, InvoiceModule,CompanyModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: 'e9ea9aa33c55a0c793c0d9429d62924c620a6db1e56ccbd2188070b855589ab5',
+      secret: jwtConstants.secret, // Replace with your actual secret key
       signOptions: { expiresIn: '1h' }, // Adjust as needed
-    }),],
+    }),
+    // Other modules...
+  ],
 })
 export class AppModule {}

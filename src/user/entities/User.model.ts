@@ -24,7 +24,7 @@ UserSchema.pre<User>('save', async function (next) {
 });
 
 export interface User extends mongoose.Document {
-  Fullname: string;
+  fullName: string;
   login: string;
   password: string;
   role: 'admin' | 'salesManager' | 'stockManager' | 'auditor';

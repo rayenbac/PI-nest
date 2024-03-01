@@ -4,6 +4,6 @@ export class CreateCompanyDto {
   }
 
 export class UpdateCompanyDto {
-    readonly nameC?: string;
+    readonly nameCompany?: string;
    
   }

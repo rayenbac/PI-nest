@@ -1,7 +1,7 @@
 // product.service.ts
 
 import { Injectable, Inject } from '@nestjs/common';
-import { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Product } from 'src/product/entities/Product.entity';
 import { CreateProductDto, UpdateProductDto } from 'src/product/entities/product.dto';
 import { User, UserModel } from 'src/user/entities/User.model';
@@ -15,6 +15,7 @@ export class ProductService {
     const createdProduct = new this.productModel({
       ...createProductDto,
       createdBy: user._id,
+      company:user.company._id
     });
     return createdProduct.save();
   }
@@ -33,6 +34,13 @@ export class ProductService {
   async deleteProduct(productId: string): Promise<Product> {
     return this.productModel.findByIdAndDelete(productId).exec();
   }
+  async findProductsCreatedByUser(userId: string): Promise<Product[]> {
+    return this.productModel.find({ createdBy: userId }).exec();
+  }
+  async findProductsByCompany(companyId: string): Promise<Product[]> {
+    return this.productModel.find({ company: companyId }).exec();
+  }
+  
   /*
   async findProductsByCompanyId(companyId: string): Promise<Product[]> {
     // Find users belonging to the company
