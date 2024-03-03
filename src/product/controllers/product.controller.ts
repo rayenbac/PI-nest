@@ -4,17 +4,10 @@ import { CreateProductDto, UpdateProductDto } from 'src/product/entities/product
 import { Product } from 'src/product/entities/Product.entity';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { UserModel } from 'src/user/entities/User.model';
-
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
-/*  
-  @Post()
-  async createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
-   
-    const userId = '65d9daa493c3bc34adafd6f5'; // Replace 'user_id_here' with actual userId
-    return this.productService.createProduct(userId, createProductDto);
-  }*/
+
   @UseGuards(AuthGuard)
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
@@ -73,14 +66,3 @@ export class ProductController {
     return this.productService.findProductsByCompany(companyId);
   }
 }
-  
-
-/* 
- async createProduct(user: User, createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = new this.productModel({
-      ...createProductDto,
-      createdBy: user._id, 
-    });
-    return createdProduct.save();
-  }
-  */ 

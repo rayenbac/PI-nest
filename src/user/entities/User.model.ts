@@ -3,8 +3,29 @@ import * as bcrypt from 'bcrypt';
 
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
-  login: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
+  login: { 
+    type: String, 
+    unique: true, 
+    required: true,
+    validate: {
+      validator: function(v: string) {
+        //Regular Expression
+        return /\S+@\S+\.\S+/.test(v);
+      },
+      message: props => `${props.value} NOT A VALID EMAIL`
+    }
+  },
+  password: { 
+    type: String, 
+    required: true,
+    validate: {
+      validator: function(v: string) {
+        // At least 8 characters with at least one letter and one number
+        return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(v);
+      },
+      message: props => `The password must be at least 8 characters long and contain at least one letter and one number!`
+    }
+  },
   role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor'], default: 'admin' },
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
 });
@@ -30,5 +51,4 @@ export interface User extends mongoose.Document {
   role: 'admin' | 'salesManager' | 'stockManager' | 'auditor';
   company: mongoose.Types.ObjectId;
 }
-
 export const UserModel = mongoose.models.User || mongoose.model<User>('User', UserSchema);

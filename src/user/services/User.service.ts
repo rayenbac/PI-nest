@@ -30,5 +30,7 @@ export class UserService {
   async findByLogin(login: string): Promise<User | null> {
     return this.userModel.findOne({ login }).exec();
   }
+    
+  
   
 }
