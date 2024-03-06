@@ -127,7 +127,7 @@ export class AuthService {
                 <div class="container">
                   <h1>Password Reset</h1>
                   <p>Use the following link to reset your password:</p>
-                  <a class="reset-link" href="http://localhost:3000/auth/reset-password?token=${resetToken}">Reset Password</a>
+                  <a class="reset-link" href="http://localhost:4200/reset-password?token=${resetToken}">Reset Password</a>
                 </div>
               </body>
             </html>
@@ -167,9 +167,3 @@ async resetPassword(resetToken: string, newPassword: string): Promise<boolean> {
   return true;
 }
 }
-
-
-
-
-
-

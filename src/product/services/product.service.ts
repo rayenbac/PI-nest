@@ -15,7 +15,7 @@ export class ProductService {
     const createdProduct = new this.productModel({
       ...createProductDto,
       createdBy: user._id,
-      company:user.company._id
+     company:user.company._id
     });
     return createdProduct.save();
   }

@@ -11,24 +11,18 @@ export class ProductController {
   @UseGuards(AuthGuard)
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
-    // Fetch the user object using the userId from the request
-    const userId = req.user.userId; // Assuming userId is available in the request after authentication
+    const userId = req.user.userId;
     const user = await UserModel.findById(userId);
-
-    // Create the product with the associated user object
     const product = await this.productService.createProduct(createProductDto, user);
-
-    // Return the created product in the response
     return product;
   } 
 
-
-  
+  @UseGuards(AuthGuard)
   @Get()
   async findAllProducts(): Promise<Product[]> {
     return this.productService.findAllProducts();
   }
-
+  
   @Get('getbyid/:id')
   async findProductById(@Param('id') id: string): Promise<Product> {
     return this.productService.findProductById(id);

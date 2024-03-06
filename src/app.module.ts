@@ -10,6 +10,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './user/entities/constants';
 import { LoggerMiddleware } from './config/logging.interceptor';
+import { SessionMiddleware } from './user/entities/session.middleware';
 
 
 @Module({
@@ -19,12 +20,20 @@ import { LoggerMiddleware } from './config/logging.interceptor';
       secret: jwtConstants.secret, 
       signOptions: { expiresIn: '1h' }, 
     }),
+    
 
   ],
 
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(LoggerMiddleware) // Apply LoggerMiddleware for all routes
+      .forRoutes('*'); // Apply to all routes
+
+    consumer
+      .apply(SessionMiddleware)
+      .exclude('http://localhost:3000/auth/login') // Apply SessionMiddleware for all routes
+      .forRoutes('*'); // Apply to all routes
   }
 }

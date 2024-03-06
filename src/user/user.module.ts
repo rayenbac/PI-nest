@@ -15,9 +15,9 @@ import { jwtConstants } from './entities/constants';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret:jwtConstants.secret,
-      signOptions: { expiresIn: '1h' }, // Adjust as needed
+      signOptions: { expiresIn: '1h' }, 
     }),
-    // Other modules...
+
   ],
   controllers: [UserController,AuthController],
   providers: [UserService, UserModel,AuthService,JwtService,

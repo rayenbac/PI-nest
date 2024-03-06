@@ -1,24 +1,26 @@
-  import { Body, Controller, Post, Query} from '@nestjs/common';
+  import { Body, Controller, Get, Post, Query, Request, Res, UseGuards} from '@nestjs/common';
   import { AuthService } from '../services/auth.service';
+import { AuthGuard } from '../entities/jwt-auth.guard';
+
   @Controller('auth')
   export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('login')
-    async login(@Body('login') login: string, @Body('password') password: string) {
-      const result = await this.authService.login(login, password);
+async login(@Body('login') login: string, @Body('password') password: string, @Res() res) {
+  const result = await this.authService.login(login, password);
 
-      if (!result) {
-        return { statusCode: 401, message: 'Unauthorized' };
-      }
+  if (!result) {
+    res.status(401).json({ message: 'Unauthorized' });
+    return;
+  }
 
-      return { statusCode: 200, message: 'Login successful', token: result.token };
-    }
-
+  res.status(200).json({ message: 'Login successful', token: result.token });
+}
     @Post('forgot-password')
   async forgotPassword(@Body('login') login: string) {
     const resetToken = await this.authService.generateResetToken(login);
-    // Send the reset token to the user (via email, SMS, etc.)
+    // Send the reset token to the user (via email)
     return { statusCode: 200, message: 'Reset token generated successfully' };
   }
 
@@ -29,6 +31,12 @@
       return { statusCode: 401, message: 'Invalid or expired reset token' };
     }
     return { statusCode: 200, message: 'Password reset successful' };
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
   
