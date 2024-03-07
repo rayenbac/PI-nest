@@ -1,6 +1,7 @@
   import { Body, Controller, Get, Post, Query, Request, Res, UseGuards} from '@nestjs/common';
   import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../entities/jwt-auth.guard';
+import { UserModel } from '../entities/User.model';
 
   @Controller('auth')
   export class AuthController {
@@ -35,8 +36,11 @@ async login(@Body('login') login: string, @Body('password') password: string, @R
 
   @UseGuards(AuthGuard)
   @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req) {
+    console.log('User ID:', req.user.userId); // Log the user ID
+    const user = await UserModel.findById(req.user.userId).populate('company');
+    console.log('User:', user); // Log the user object fetched from the database
+    return user; // Return the user object in the response
   }
 }
   

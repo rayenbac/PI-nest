@@ -35,5 +35,20 @@ export class AppModule implements NestModule {
       .apply(SessionMiddleware)
       .exclude('http://localhost:3000/auth/login') // Apply SessionMiddleware for all routes
       .forRoutes('*'); // Apply to all routes
+      consumer
+      .apply((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); // Update with your Angular app's URL
+        res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+        res.header('Access-Control-Allow-Credentials', 'true');
+
+        if (req.method === 'OPTIONS') {
+          res.sendStatus(204);
+        } else {
+          next();
+        }
+      })
+      .forRoutes('*'); // Apply CORS middleware to all routes
   }
-}
+  }
+  
