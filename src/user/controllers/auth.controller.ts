@@ -42,5 +42,6 @@ async login(@Body('login') login: string, @Body('password') password: string, @R
     console.log('User:', user); // Log the user object fetched from the database
     return user; // Return the user object in the response
   }
+  
 }
   

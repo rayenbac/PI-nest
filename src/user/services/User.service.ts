@@ -1,11 +1,14 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { User } from 'src/user/entities/User.model';
 import { CreateUserDto, UpdateUserDto } from 'src/user/entities/user.dto';
+import * as multer from 'multer';
+import * as fs from 'fs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
-  constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>) {}
+  constructor(@Inject('USER_MODEL') private readonly userModel: Model<User>,private readonly  authService: AuthService) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const createdUser = new this.userModel(createUserDto);
@@ -13,7 +16,7 @@ export class UserService {
   }
 
   async findAllUsers(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find().populate('company').exec();
   }
 
   async findUserById(userId: string): Promise<User> {
@@ -30,7 +33,51 @@ export class UserService {
   async findByLogin(login: string): Promise<User | null> {
     return this.userModel.findOne({ login }).exec();
   }
-    
+  async uploadPicture(userId: string, file: multer.Multer.File): Promise<void> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    // Save the file to a directory on your server
+    // Make sure to configure multer to save files to the desired directory
+    // Here we assume you have a directory named 'uploads' in your project root
+    const filePath = `uploads/${userId}_${file.originalname}`;
+    await fs.promises.writeFile(filePath, file.buffer);
+
+    // Update the user's picture field with the file path
+    user.picture = filePath;
+    await user.save();
+  }
+  async findAllUsersByCompany(companyId: string): Promise<User[]> {
+    return this.userModel.find({ company: companyId }).populate('company').exec();
+  }
+  async deactivateUser(userId: string): Promise<User> {
+    const deactivatedUser = await this.userModel.findByIdAndUpdate(
+      userId,
+      { isActive: false },
+      { new: true }
+    ).exec();
+
+    // Send email notification after deactivation
+    await this.authService.sendDeactivationEmail(deactivatedUser.login);
+
+    return deactivatedUser;
+  }
+  async activateUser(userId: string): Promise<User> {
+    const activatedUser = await this.userModel.findByIdAndUpdate(
+      userId,
+      { isActive: true },
+      { new: true }
+    ).exec();
+
+    await this.authService.sendActivationEmail(activatedUser.login);
+
+    return activatedUser;
+  }
+  }
+
   
   
-}
+  
+

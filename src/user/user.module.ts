@@ -5,10 +5,11 @@ import { UserModel } from './entities/User.model';
 import { databaseProviders } from 'src/config/database.config';
 import { AuthController } from 'src/user/controllers/auth.controller';
 import { AuthService } from 'src/user/services/auth.service';
-import { SessionMiddleware } from 'src/user/entities/session.middleware';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './entities/constants';
+import { MulterModule } from '@nestjs/platform-express';
+import * as multer from 'multer';
 
 @Module({
   imports: [
@@ -17,7 +18,9 @@ import { jwtConstants } from './entities/constants';
       secret:jwtConstants.secret,
       signOptions: { expiresIn: '1h' }, 
     }),
-
+    MulterModule.register({
+      dest: '/uploads/', // Specify the destination folder for uploaded files
+    }),
   ],
   controllers: [UserController,AuthController],
   providers: [UserService, UserModel,AuthService,JwtService,
@@ -28,8 +31,9 @@ import { jwtConstants } from './entities/constants';
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    const upload = multer({ dest: 'uploads/' }); // Configure multer to save files to the 'uploads' directory
     consumer
-      .apply(SessionMiddleware)
-      .forRoutes('*');
+      .apply(upload.single('picture')) // 'picture' is the name of the field in your form data
+      .forRoutes('users/uploadPicture'); // Define the route where you want to handle file uploads
   }
 }
