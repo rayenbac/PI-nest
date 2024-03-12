@@ -140,7 +140,7 @@ export class AuthService {
         {
           From: { Email: 'malek.zaidi@esprit.tn', Name: 'TNF SUPPORT TEAM' },
           To: [{ Email: login }],
-          TemplateID: 5772498, // Use your template ID here
+          TemplateID: 5772498, 
           TemplateLanguage: true,
           Variables: {
             DeactivationTime: deactivationTime,
