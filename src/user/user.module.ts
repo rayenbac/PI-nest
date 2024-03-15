@@ -6,16 +6,17 @@ import { databaseProviders } from 'src/config/database.config';
 import { AuthController } from 'src/user/controllers/auth.controller';
 import { AuthService } from 'src/user/services/auth.service';
 import { SessionMiddleware } from 'src/user/entities/session.middleware';
+
+import { jwtConstants } from './entities/constants';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { jwtConstants } from './entities/constants';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret:jwtConstants.secret,
-      signOptions: { expiresIn: '1h' }, 
+      signOptions: { expiresIn: '5h' }, 
     }),
 
   ],

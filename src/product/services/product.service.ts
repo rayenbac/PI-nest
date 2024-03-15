@@ -1,11 +1,16 @@
 // product.service.ts
 
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, BadRequestException } from '@nestjs/common';
 import mongoose, { Model, Types } from 'mongoose';
 import { Product } from 'src/product/entities/Product.entity';
 import { CreateProductDto, UpdateProductDto } from 'src/product/entities/product.dto';
 import { User, UserModel } from 'src/user/entities/User.model';
 import { AuthService } from 'src/user/services/auth.service';
+import { extname } from 'path';
+import { createReadStream, createWriteStream, unlink } from 'fs';
+import { promisify } from 'util';
+import * as multer from 'multer';
+
 
 @Injectable()
 export class ProductService {
@@ -14,15 +19,15 @@ export class ProductService {
   async createProduct(createProductDto: CreateProductDto, user: User): Promise<Product> {
     const createdProduct = new this.productModel({
       ...createProductDto,
-      createdBy: user._id,
-     company:user.company._id
+      createdBy: user.id,
+      company: user.company instanceof Types.ObjectId ? user.company : user.company.nameCompany, // Utilisez le nom de la société si 'company' est un objet 'Company'
+      
     });
-    return createdProduct.save();
+    return createdProduct.save();           
   }
   async findAllProducts(): Promise<Product[]> {
-    return this.productModel.find().exec();
-  }
-
+    return this.productModel.find().populate('company', 'nameCompany').exec();
+}
   async findProductById(productId: string): Promise<Product> {
     return this.productModel.findById(productId).exec();
   }
@@ -40,6 +45,23 @@ export class ProductService {
   async findProductsByCompany(companyId: string): Promise<Product[]> {
     return this.productModel.find({ company: companyId }).exec();
   }
+  // async uploadFile(file: Express.Multer.File): Promise<string> {
+  //   console.log(file);
+    
+  //   if (!file) {
+  //     throw new BadRequestException('No file uploaded');
+  //   }
+  //   const fileExtName = extname(file.originalname);
+  //   const fileName = `${Date.now()}${fileExtName}`;
+  //   const filePath = `/src/uploads/${fileName}`;
+  
+  //   const writeStream = createWriteStream(filePath); 
+  //       writeStream.write(file.buffer);
+  //   writeStream.end();
+  
+  //   return filePath; // Retourne le chemin du fichier sauvegardé
+  // }
+
   
   /*
   async findProductsByCompanyId(companyId: string): Promise<Product[]> {

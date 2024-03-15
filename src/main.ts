@@ -2,6 +2,9 @@
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { join } from 'path';
+import { ServeStaticModule } from '@nestjs/serve-static';
+
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +16,10 @@ async function bootstrap() {
     allowedHeaders: 'Content-Type, Authorization', // Allow these headers
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   });
+
+ 
+
+
 
   await app.listen(3000);
 }

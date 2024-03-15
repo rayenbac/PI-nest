@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Company } from 'src/company/entities/company.entity';
 
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
@@ -49,6 +50,6 @@ export interface User extends mongoose.Document {
   login: string;
   password: string;
   role: 'admin' | 'salesManager' | 'stockManager' | 'auditor';
-  company: mongoose.Types.ObjectId;
+  company: Company['_id'] | Company; // Référence à l'interface Company
 }
 export const UserModel = mongoose.models.User || mongoose.model<User>('User', UserSchema);

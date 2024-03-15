@@ -1,11 +1,10 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { ClientService } from 'src/client/services/client.service';
 import { CreateClientDto, UpdateClientDto } from 'src/client/entities/client.dto';
 import { Client } from 'src/client/entities/Client.entity';
 import { OrderService } from 'src/order/services/order.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { Product } from 'src/product/entities/Product.entity';
 import { Order } from 'src/order/entities/Order.entity';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 
 @Controller('clients')
 export class ClientController {

@@ -7,6 +7,7 @@ export class CreateProductDto {
     readonly quantity: number;
     readonly type: string;
     readonly supplier: string;
+    readonly filePath: string;
   }
   
   export class UpdateProductDto {
@@ -16,5 +17,7 @@ export class CreateProductDto {
     readonly quantity?: number;
     readonly type?: string;
     readonly supplier?: string;
+    readonly filePath?: string;
+
   }
   
