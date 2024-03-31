@@ -29,7 +29,7 @@ export class ProductService {
     return this.productModel.find().populate('company', 'nameCompany').exec();
 }
   async findProductById(productId: string): Promise<Product> {
-    return this.productModel.findById(productId).exec();
+    return this.productModel.findById(productId).populate('company', 'nameCompany').exec();
   }
 
   async updateProduct(productId: string, updateProductDto: UpdateProductDto): Promise<Product> {

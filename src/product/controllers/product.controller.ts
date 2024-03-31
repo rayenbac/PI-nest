@@ -40,7 +40,7 @@ export class ProductController {
     return this.productService.findAllProducts();
   }
   
-  @Get('getbyid/:id')
+  @Get(':id')
   async findProductById(@Param('id') id: string): Promise<Product> {
     return this.productService.findProductById(id);
   }
