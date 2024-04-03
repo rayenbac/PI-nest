@@ -39,9 +39,8 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    // Save the file to a directory on your server
-    // Make sure to configure multer to save files to the desired directory
-    // Here we assume you have a directory named 'uploads' in your project root
+    // Save the file to a directory on server
+    // configure multer to save files to the desired directory
     const filePath = `uploads/${userId}_${file.originalname}`;
     await fs.promises.writeFile(filePath, file.buffer);
 

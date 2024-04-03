@@ -1,11 +1,9 @@
-import * as nodemailer from 'nodemailer';
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User, UserModel } from 'src/user/entities/User.model';
 import { jwtConstants } from '../entities/constants'; 
 import * as mailjet from 'node-mailjet'; 
-import * as fs from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -22,15 +20,17 @@ export class AuthService {
     const user = await UserModel.findOne({ login });
 
     if (!user) {
-      return null;
+      throw new UnauthorizedException('Invalid email or password');
     }
+
     if (!user.isActive) {
       throw new UnauthorizedException('Account is not active');
     }
+
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return null;
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // Sign the JWT with the predefined secret key
@@ -162,7 +162,7 @@ export class AuthService {
         {
           From: { Email: 'malek.zaidi@esprit.tn', Name: 'TNF SUPPORT TEAM' },
           To: [{ Email: login }],
-          TemplateID: 5772507, // Use your template ID here
+          TemplateID: 5772507, 
           TemplateLanguage: true,
         },
       ],
@@ -173,6 +173,37 @@ export class AuthService {
       throw err;
     });
   }
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
+    try {
+        const user = await UserModel.findById(userId);
+  
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+  
+        // Verify if the current password matches
+        const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+  
+        if (!isPasswordValid) {
+            throw new UnauthorizedException('Invalid current password');
+        }
+        if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newPassword)) {
+          throw new UnauthorizedException('The password must be at least 8 characters long and contain at least one letter and one number');
+      }
+  
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+  
+        // Update the user's password without validation
+        await UserModel.updateOne({ _id: userId }, { password: hashedPassword }, { validateBeforeSave: false });
+  
+        console.log('Password changed successfully');
+    } catch (error) {
+        // Handle errors
+        console.error('Error changing password:', error);
+        throw new UnauthorizedException('Failed to change password');
+    }
+}
 
-
+  
 }

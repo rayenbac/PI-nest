@@ -49,6 +49,6 @@ export class AppModule implements NestModule {
     }).forRoutes('*');
 
     // Apply rate-limiting middleware for the login route only
-    consumer.apply(RateLimitMiddleware).forRoutes('auth/login');
+    // consumer.apply(RateLimitMiddleware).forRoutes('auth/login');
   }
 }

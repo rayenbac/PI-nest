@@ -1,4 +1,4 @@
-  import { Body, Controller, Get, Post, Query, Request, Res, UseGuards} from '@nestjs/common';
+  import { Body, Controller, Get, Post, Query, Req, Request, Res, UnauthorizedException, UseGuards} from '@nestjs/common';
   import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../entities/jwt-auth.guard';
 import { UserModel } from '../entities/User.model';
@@ -42,6 +42,18 @@ async login(@Body('login') login: string, @Body('password') password: string, @R
     console.log('User:', user); // Log the user object fetched from the database
     return user; // Return the user object in the response
   }
-  
+  @UseGuards(AuthGuard) // Apply AuthGuard to authenticate requests
+@Post('change-password')
+async changePassword(@Request() req, @Body() body: { currentPassword: string, newPassword: string }): Promise<void> {
+    try {
+        const userId = req.user.userId; // Extract user ID from the request
+        await this.authService.changePassword(userId, body.currentPassword, body.newPassword);
+    } catch (error) {
+        // Handle errors
+        throw new UnauthorizedException('Failed to change password');
+    }
+}
+
+    
 }
   

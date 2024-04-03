@@ -27,7 +27,7 @@ import * as multer from 'multer';
     ...databaseProviders,
     { provide: 'USER_MODEL', useValue: UserModel }, 
 ],
-  exports: [UserService, UserModel],
+  exports: [UserService, UserModel,AuthService],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
