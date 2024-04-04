@@ -1,25 +1,27 @@
 pipeline {
-  agent any
-  tools {nodejs "node"}
-  stages {
-    stage('Build') {
-      steps {
-        git credentialsId: '50149f68-5226-4b9f-acb4-c0b99e149e50', url: 'https://github.com/rayenbac/PI-nest', branch: 'Produit'
-        sh 'npm install'
-         
-      }
+    agent any
+    
+    tools {
+        nodejs "node"
     }
-  }
-   stages {
+
+    stages {
+        stage('Build') {
+            steps {
+                git credentialsId: '50149f68-5226-4b9f-acb4-c0b99e149e50', url: 'https://github.com/rayenbac/PI-nest', branch: 'Produit'
+                sh 'npm install'
+            }
+        }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('Sonar') {
                     script {
                         sh 'npm install sonar-scanner'
-                        sh'npm run sonar'
+                        sh 'npm run sonar'
                     }
                 }
             }
         }
-    
+    }
 }
