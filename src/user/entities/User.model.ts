@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import { Company } from 'src/company/entities/company.entity';
 
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true },

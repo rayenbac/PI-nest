@@ -8,6 +8,7 @@ export const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
   type: { type: String, required: true },
+  imagePath: { type: String, required: true },
   supplier: { type: mongoose.Schema.Types.ObjectId, ref: 'Supplier' }, // Reference to Supplier
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to user
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' }, // Reference to Company
@@ -19,6 +20,7 @@ export interface Product extends mongoose.Document {
   price: number;
   quantity: number;
   type: string;
+  filePath :string;
   supplier: mongoose.Types.ObjectId;
   createdBy: mongoose.Types.ObjectId;
   company: mongoose.Types.ObjectId; // company field

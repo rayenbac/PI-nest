@@ -1,4 +1,3 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { ClientModule } from './client/client.module';
 import { OrderModule } from './order/order.module';
@@ -11,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './user/entities/constants';
 import { LoggerMiddleware } from './config/logging.interceptor';
 import { SessionMiddleware } from './user/entities/session.middleware';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
 
 
@@ -51,4 +51,5 @@ export class AppModule implements NestModule {
     // Apply rate-limiting middleware for the login route only
     // consumer.apply(RateLimitMiddleware).forRoutes('auth/login');
   }
+  
 }
