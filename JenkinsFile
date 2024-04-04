@@ -1,0 +1,10 @@
+Pipeline Script: 
+pipeline {
+  agent any
+  tools {nodejs "node"}
+  stages {
+    stage('Build') {
+      steps {
+   git credentialsId: '50149f68-5226-4b9f-acb4-c0b99e149e50', url: 'https://github.com/rayenbac/PI-nest'
+        bat 'npm install'
+      }}}}
