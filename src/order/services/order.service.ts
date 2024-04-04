@@ -1,7 +1,7 @@
 // order.service.ts
 
 import { Injectable, Inject } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Order } from 'src/order/entities/Order.entity';
 import { CreateOrderDto, UpdateOrderDto } from 'src/order/entities/order.dto';
 
@@ -15,7 +15,7 @@ export class OrderService {
   }
 
   async findAllOrders(): Promise<Order[]> {
-    return this.orderModel.find().exec();
+    return this.orderModel.find().populate('products').exec();
   }
 
   async findOrderById(orderId: string): Promise<Order> {
