@@ -10,6 +10,7 @@ import { databaseProviders } from 'src/config/database.config';
     ...databaseProviders,
     { provide: 'COMPANY_MODEL', useValue: CompanyModel },
 ],
-  controllers: [CompanyController]
+  controllers: [CompanyController],
+  exports: ['COMPANY_MODEL' , CompanyService],
 })
 export class CompanyModule {}

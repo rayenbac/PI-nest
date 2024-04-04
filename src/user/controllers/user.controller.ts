@@ -3,15 +3,19 @@ import { UserService } from 'src/user/services/User.service';
 import { CreateUserDto, UpdateUserDto } from 'src/user/entities/user.dto';
 import { User } from 'src/user/entities/User.model';
 import { AuthGuard } from '../entities/jwt-auth.guard';
+import { CreateCompanyDto } from 'src/company/entities/company.dto';
+import { CompanyService } from 'src/company/services/company.service';
 
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly companyService: CompanyService) {}
 
   @Post('register')
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.createUser(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto, @Body('company') companyDto: CreateCompanyDto): Promise<User> {
+    const createdCompany = await this.companyService.create(companyDto);
+    return this.userService.createUser(createUserDto, createdCompany._id);
   }
+
   @UseGuards(AuthGuard)
   @Get()
   async findAllUsers(): Promise<User[]> {

@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
     }
   },
   role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor'], default: 'admin' },
-  company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
+  company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company',required: true  },
 });
 
 UserSchema.pre<User>('save', async function (next) {
