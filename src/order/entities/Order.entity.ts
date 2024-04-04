@@ -7,8 +7,6 @@ export const OrderSchema = new mongoose.Schema({
   status: { type: String, required: true },
   client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client' },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-  invoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoice', unique: true },
-
 });
 
 export interface Order extends mongoose.Document {
@@ -16,7 +14,5 @@ export interface Order extends mongoose.Document {
   status: string;
   client: mongoose.Types.ObjectId;
   products: mongoose.Types.ObjectId[]; 
-  invoice: mongoose.Types.ObjectId;
 }
-
 export const OrderModel = mongoose.model<Order>('Order', OrderSchema);
