@@ -14,14 +14,19 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('scanner') {
-                    script {
-                        sh 'npm install sonar-scanner'
-                        sh 'npm run sonar'
-                    }
-                }
+    steps {
+        withSonarQubeEnv('Sonar') {
+            script {
+                // Installer sonar-scanner
+                sh 'npm install sonar-scanner'
+
+                // Exécuter sonar-scanner en spécifiant le chemin vers sonar-scanner.properties
+                def scannerConfDir = "${WORKSPACE}/node_modules/sonar-scanner/conf"
+                sh "sonar-scanner -Dsonar.projectBaseDir=${WORKSPACE} -Dsonar.config.file=${scannerConfDir}/sonar-scanner.properties"
             }
         }
+    }
+}
+
     }
 }
