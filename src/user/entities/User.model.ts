@@ -26,8 +26,11 @@ const UserSchema = new mongoose.Schema({
       message: props => `The password must be at least 8 characters long and contain at least one letter and one number!`
     }
   },
-  role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor'], default: 'admin' },
+  role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor','SuperAdmin'], default: 'admin' },
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company',required: true  },
+  picture: { type: String },
+  isActive: { type: Boolean, default: true }
+
 });
 
 UserSchema.pre<User>('save', async function (next) {
@@ -48,7 +51,10 @@ export interface User extends mongoose.Document {
   fullName: string;
   login: string;
   password: string;
-  role: 'admin' | 'salesManager' | 'stockManager' | 'auditor';
+  role: 'admin' | 'salesManager' | 'stockManager' | 'auditor' | 'SuperAdmin';
   company: mongoose.Types.ObjectId;
+  picture?: string;
+  isActive?: Boolean;
+
 }
 export const UserModel = mongoose.models.User || mongoose.model<User>('User', UserSchema);
