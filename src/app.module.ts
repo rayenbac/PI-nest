@@ -23,6 +23,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
     
 
   ],
+  providers: [],
 
 })
 export class AppModule implements NestModule {

@@ -9,6 +9,7 @@ export class CreateProductDto {
     readonly supplier: string;
     readonly filePath: string;
     readonly company?: string;
+    readonly  createdBy?:string ;
 
   }
   

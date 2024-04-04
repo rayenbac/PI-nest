@@ -10,4 +10,16 @@ pipeline {
       }
     }
   }
+   stages {
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('Sonar') {
+                    script {
+                        sh 'npm install sonar-scanner'
+                        sh'npm run sonar'
+                    }
+                }
+            }
+        }
+    
 }

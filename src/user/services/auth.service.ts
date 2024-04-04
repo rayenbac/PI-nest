@@ -8,7 +8,7 @@ import { jwtConstants } from '../entities/constants';
 import * as mailjet from 'node-mailjet'; 
 
 @Injectable()
-export class AuthService {
+export class  AuthService {
   private readonly transporter;
   private readonly mailjetClient;
 
