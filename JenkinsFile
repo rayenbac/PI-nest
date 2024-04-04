@@ -5,7 +5,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          git branch: 'main', credentials: env.GITHUB_CREDENTIALS, url: 'https://github.com/rayenbac/PI-nest'
+          git branch: 'Produit', credentials: env.GITHUB_CREDENTIALS, url: 'https://github.com/rayenbac/PI-nest'
           bat 'npm install'
         }
       }
