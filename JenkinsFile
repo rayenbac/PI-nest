@@ -4,9 +4,7 @@ pipeline {
     tools {
         nodejs "node"
     }
-    environment {
-        SCANNER_HOME = tool 'SonarScanner'
-    }
+
     stages {
         stage('Build') {
             steps {
@@ -15,23 +13,15 @@ pipeline {
             }
         }
 
-       stage('SonarQube Analysis') {
-    steps {
-        // Configuration de l'environnement SonarQube
-        withSonarQubeEnv('scanner') {
-            // Installation de SonarScanner
-            script {
-                sh 'npm install sonar-scanner'
-            }
-
-            // Exécution de SonarScanner avec le fichier de configuration personnalisé
-            script {
-          
-
-                sh "${SCANNER_HOME}/bin/sonar-scanner"
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('scanner') {
+                    script {
+                        sh 'npm install sonar-scanner'
+                        sh 'npm run sonar'
+                    }
+                }
             }
         }
-    }
-    }
     }
 }
