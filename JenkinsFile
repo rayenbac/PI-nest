@@ -13,15 +13,15 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('scanner') {
-                    script {
-                        sh 'npm install sonar-scanner'
-                        sh 'npm run sonar'
-                    }
-                }
+       stage('SonarQube Analysis') {
+    steps {
+        withSonarQubeEnv('scanner') {
+            script {
+                // Exécute l'analyse SonarQube
+                sh 'node_modules/sonar-scanner/bin/sonar-scanner'
             }
         }
+    }
+}
     }
 }
