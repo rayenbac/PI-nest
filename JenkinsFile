@@ -13,15 +13,21 @@ pipeline {
             }
         }
 
-        stage('SonarQube Analysis') {
+       stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('scannner') {
+                // Configuration de l'environnement SonarQube
+                withSonarQubeEnv('SonarQube') {
+                    // Exécution de SonarScanner
                     script {
-                        sh 'npm install sonar-scanner'
-                        sh 'npm run sonar'
+                        def scannerDir = "${WORKSPACE}/node_modules/sonar-scanner"
+                        def scannerConfDir = "${scannerDir}/conf"
+                        
+                        // Exécution de SonarScanner en spécifiant le chemin du fichier sonar-scanner.properties
+                        sh "sonar-scanner -Dsonar.projectBaseDir=${WORKSPACE} -Dsonar.config.file=${scannerConfDir}/sonar-scanner.properties"
                     }
                 }
             }
         }
+    }
     }
 }
