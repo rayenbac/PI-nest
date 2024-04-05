@@ -4,7 +4,9 @@ pipeline {
     tools {
         nodejs "node"
     }
-
+    environment {
+        SCANNER_HOME = tool 'SonarScanner'
+    }
     stages {
         stage('Build') {
             steps {
