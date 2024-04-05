@@ -13,16 +13,15 @@ pipeline {
             }
         }
 
-       stage('SonarQube Analysis') {
-    steps {
-        withSonarQubeEnv('scanner') {
-            script {
-                sh 'chmod +x sonar-project.properties' // Assurez-vous que sonar-scanner a les bonnes autorisations
-                sh './sonar-project.properties' // Exécutez le script sonar-scanner
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('rscanner') {
+                    script {
+                        sh 'npm install sonar-scanner'
+                        sh 'npm run sonar'
+                    }
+                }
             }
         }
     }
-       }
-    }
-    
 }
