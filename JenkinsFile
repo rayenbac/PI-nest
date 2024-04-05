@@ -24,10 +24,9 @@ pipeline {
 
             // Exécution de SonarScanner avec le fichier de configuration personnalisé
             script {
-           def scannerConfDir = "${WORKSPACE}/sonar.properties"
+          
 
-                // Exécution de SonarScanner en spécifiant le chemin du fichier sonar-project.properties
-                sh "sonar-scanner -Dsonar.projectBaseDir=${WORKSPACE} -Dsonar.config.file=${scannerConfDir}"
+                sh "${SCANNER_HOME}/bin/sonar-scanner"
             }
         }
     }
