@@ -16,12 +16,12 @@ stage('Print Working Directory') {
     steps {
         sh 'pwd'
     }
-}
        stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('scanner') {
             script {
-                        sh '/var/lib/jenkins/workspace/ERPAPP-PI/node_modules/sonar-scanner/bin/sonar-scanner'
+                sh 'chmod +x sonar-project.properties' // Assurez-vous que sonar-scanner a les bonnes autorisations
+                sh './sonar-project.properties' // Exécutez le script sonar-scanner
             }
         }
     }
