@@ -15,7 +15,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
     steps {
-        withSonarQubeEnv('Sonar') {
+        withSonarQubeEnv('ERPAPP') {
             script {
                 // Installer sonar-scanner
                 sh 'npm install sonar-scanner'
