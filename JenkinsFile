@@ -18,7 +18,7 @@ pipeline {
         withSonarQubeEnv('scanner') {
             script {
                 // Exécute l'analyse SonarQube
-             sh '/var/lib/jenkins/workspace/ERPAPP-PI/node_modules/sonar-scanner/bin/sonar-scanner'
+             sh '/var/lib/jenkins/workspace/ERPAPP-PI/node_modules/sonar-scanner/bin'
             }
         }
     }
