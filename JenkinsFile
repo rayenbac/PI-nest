@@ -21,8 +21,7 @@ stage('Print Working Directory') {
     steps {
         withSonarQubeEnv('scanner') {
             script {
-                sh 'chmod +x sonar-project.properties' // Assurez-vous que sonar-scanner a les bonnes autorisations
-                sh './sonar-project.properties' // Exécutez le script sonar-scanner
+               sh '/var/lib/jenkins/workspace/ERPAPP-PI/sonar-project.properties' // Exécutez le script sonar-scanner
             }
         }
     }
