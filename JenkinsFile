@@ -12,7 +12,11 @@ pipeline {
                 sh 'npm install'
             }
         }
-
+stage('Print Working Directory') {
+    steps {
+        sh 'pwd'
+    }
+}
        stage('SonarQube Analysis') {
     steps {
         withSonarQubeEnv('scanner') {
