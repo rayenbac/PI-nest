@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Construire l'image Docker à partir du Dockerfile
-                    docker.build('benelbeyskander465/ERPAPP')
+                    docker.build('benelbeyskander465/erpapp')
                 }
             }
         }
