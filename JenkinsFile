@@ -5,7 +5,7 @@ pipeline {
         nodejs "node"
     }
     environment {
-registryCredentials = "5305e2e5-235d-4abc-a8da-0dd34d10e03b"
+registryCredentials = "nexus"
 registry = "192.168.1.209:8083"
 }
 
