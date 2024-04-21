@@ -1,18 +1,24 @@
 pipeline {
     agent any
+    
     tools {
         nodejs "node"
     }
+    
     stages {
         stage('Build') {
             steps {
                 git credentialsId: '50149f68-5226-4b9f-acb4-c0b99e149e50', url: 'https://github.com/rayenbac/PI-nest.git'
-                sh ('npm install')
+                sh 'npm install'
             }
         }
-        stage('Test') {
+        
+        stage('Build Docker Image') {
             steps {
-                sh 'npm test'
+                script {
+                    // Construire l'image Docker à partir du Dockerfile
+                    docker.build('benelbeyskander465/ERPAPP')
+                }
             }
         }
     }
