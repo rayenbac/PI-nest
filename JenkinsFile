@@ -4,7 +4,12 @@ pipeline {
     tools {
         nodejs "node"
     }
-    
+    environment {
+registryCredentials = "5305e2e5-235d-4abc-a8da-0dd34d10e03b"
+registry = "192.168.1.209:8083"
+}
+
+   
     stages {
         stage('Build') {
             steps {
@@ -21,5 +26,16 @@ pipeline {
                 }
             }
         }
+       stage('Deploy to Nexus') {
+            steps{
+                 script {
+                docker.withRegistry("http://"+registry,
+                       registryCredentials ) {
+                          sh('docker push $registry/benelbeyskander465/erpapp')
+}
+}
+}
+}
+
     }
 }
