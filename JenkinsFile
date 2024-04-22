@@ -18,15 +18,15 @@ registry = "192.168.1.209:8083"
             }
         }
         
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Construire l'image Docker à partir du Dockerfile
-                    docker.build('benelbeyskander465/erpapp')
-                }
-            }
+        stage('Building images (node and mongo)') {
+          steps{
+            script {
+                sh('docker-compose build') 
+               }
         }
+    }
+
  
 
     }
-}
+    }
