@@ -5,11 +5,10 @@ pipeline {
         nodejs "node"
     }
     environment {
-registryCredentials = "nexus"
-registry = "http://192.168.100.36:8081"
-}
+        registryCredentials = "nexus"
+        registry = "http://192.168.100.36:8081/repository/docker-repo/"
+    }
 
-   
     stages {
         stage('Build') {
             steps {
@@ -19,21 +18,21 @@ registry = "http://192.168.100.36:8081"
         }
         
         stage('Building images (node and mongo)') {
-          steps{
-            script {
-                sh('docker-compose build') 
-               }
+            steps {
+                script {
+                    sh('docker-compose build') 
+                }
+            }
+        }
+
+        stage('Deploy to Nexus') {
+            steps {
+                script {
+                    docker.withRegistry(registry, registryCredentials) {
+                        sh('docker push $registry/nodemongoapp:5.0')
+                    }
+                }
+            }
         }
     }
-       stage('Deploy to Nexus') {
-steps{
-script {
-docker.withRegistry("http://"+registry,
-registryCredentials ) {
-sh('docker push $registry/nodemongoapp:5.0 ')
 }
-}
-}
-}
-    }
-    }
