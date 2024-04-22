@@ -10,6 +10,9 @@ import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './entities/constants';
 import { MulterModule } from '@nestjs/platform-express';
 import * as multer from 'multer';
+import { MessageService } from './services/message.service';
+import { ChatGateway } from './entities/chat.gateway';
+import { MessageModel } from './entities/message.model';
 
 @Module({
   imports: [
@@ -23,10 +26,18 @@ import * as multer from 'multer';
     }),
   ],
   controllers: [UserController,AuthController],
-  providers: [UserService, UserModel,AuthService,JwtService,
+  providers: [
+    UserService, 
+    UserModel, 
+    AuthService,
+    JwtService,
+    MessageService,
+    ChatGateway,
     ...databaseProviders,
-    { provide: 'USER_MODEL', useValue: UserModel }, 
-],
+    { provide: 'USER_MODEL', useValue: UserModel },
+    { provide: 'MessageModel', useValue: MessageModel }, // Assuming you have a MessageModel defined
+  ],
+  
   exports: [UserService, UserModel,AuthService],
 })
 export class UserModule implements NestModule {
