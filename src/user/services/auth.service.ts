@@ -8,6 +8,7 @@ import * as mailjet from 'node-mailjet';
 @Injectable()
 export class AuthService {
   private readonly mailjetClient;
+  
 
   constructor(private readonly jwtService: JwtService) {
     this.mailjetClient = mailjet.connect('f0d1f00135c86c5beb143f0052226895', '991d774ee912ba9666bfac369724ba27', {
@@ -15,6 +16,8 @@ export class AuthService {
       perform_api_call: true,
     });
   }
+
+
 
   async login(login: string, password: string): Promise<{ token: string }> {
     const user = await UserModel.findOne({ login });

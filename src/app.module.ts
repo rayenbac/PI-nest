@@ -12,6 +12,7 @@ import { LoggerMiddleware } from './config/logging.interceptor';
 import { SessionMiddleware } from './user/entities/session.middleware';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
+import { GoogleModule } from './user/google/google.module';
 
 
 @Module({
@@ -21,6 +22,7 @@ import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
       secret: jwtConstants.secret, 
       signOptions: { expiresIn: '1h' }, 
     }),
+    GoogleModule
     
 
   ],

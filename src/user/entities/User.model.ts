@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema({
     }
   },
   role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor','SuperAdmin'], default: 'admin' },
-  company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company',required: true  },
+  company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company'  },
   picture: { type: String },
   isActive: { type: Boolean, default: true }
 
@@ -53,7 +53,7 @@ export interface User extends mongoose.Document {
   login: string;
   password: string;
   role: 'admin' | 'salesManager' | 'stockManager' | 'auditor' | 'SuperAdmin';
-  company: mongoose.Types.ObjectId;
+  company?: mongoose.Types.ObjectId | Company;
   picture?: string;
   isActive?: Boolean;
 

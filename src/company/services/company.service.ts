@@ -1,4 +1,3 @@
-// company.service.ts
 import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateCompanyDto, UpdateCompanyDto } from '../entities/company.dto';

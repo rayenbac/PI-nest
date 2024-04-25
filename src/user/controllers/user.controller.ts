@@ -9,6 +9,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import path from 'path';
 import * as fs from 'fs';
 import { SuperAdminGuard } from '../entities/superadmin.guard';
+import mongoose from 'mongoose';
 
 
 @Controller('users')
@@ -17,9 +18,23 @@ export class UserController {
 
   @Post('register')
   async createUser(@Body() createUserDto: CreateUserDto, @Body('company') companyDto: CreateCompanyDto): Promise<User> {
-    const createdCompany = await this.companyService.create(companyDto);
-    return this.userService.createUser(createUserDto, createdCompany._id);
+    let createdCompany;
+    if (companyDto) {
+      createdCompany = await this.companyService.create(companyDto);
+    }
+    return this.userService.createUser(createUserDto, createdCompany ? createdCompany._id : undefined);
   }
+  
+
+  @Post('assign')
+async AssignUser(@Body() createUserDto: CreateUserDto, @Body('companyId') companyId: string): Promise<User> {
+    // Create the user with the specified company ID
+    return this.userService.createUser(createUserDto, companyId);
+}
+
+
+
+
 
   @UseGuards(AuthGuard)
   @Get()

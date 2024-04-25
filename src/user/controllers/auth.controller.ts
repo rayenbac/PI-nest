@@ -1,11 +1,15 @@
   import { Body, Controller, Get, Post, Query, Req, Request, Res, UnauthorizedException, UseGuards} from '@nestjs/common';
   import { AuthService } from '../services/auth.service';
-import { AuthGuard } from '../entities/jwt-auth.guard';
 import { UserModel } from '../entities/User.model';
+import { AuthGuard } from '@nestjs/passport';
+
 
   @Controller('auth')
   export class AuthController {
     constructor(private readonly authService: AuthService) {}
+
+    
+  
 
     @Post('login')
 async login(@Body('login') login: string, @Body('password') password: string, @Res() res) {
@@ -53,6 +57,9 @@ async changePassword(@Request() req, @Body() body: { currentPassword: string, ne
         throw new UnauthorizedException('Failed to change password');
     }
 }
+
+
+
 
     
 }
