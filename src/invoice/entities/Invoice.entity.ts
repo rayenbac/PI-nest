@@ -2,7 +2,6 @@
 
 import * as mongoose from 'mongoose';
 
-<<<<<<< HEAD
 
 export const InvoiceSchema = new mongoose.Schema({
   date: { type: String, required: true },
@@ -24,16 +23,6 @@ export interface Invoice extends mongoose.Document {
   company: mongoose.Types.ObjectId;
 
   
-=======
-export const InvoiceSchema = new mongoose.Schema({
-  dueDate: { type: Date, required: true },
-  refInvoice:{ type: String, required: true },
-});
-
-export interface Invoice extends mongoose.Document {
-  dueDate: Date;
-  refInvoice: string;
->>>>>>> origin/master
 }
 
 export const InvoiceModel = mongoose.model<Invoice>('Invoice', InvoiceSchema);

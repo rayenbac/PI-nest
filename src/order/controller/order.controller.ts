@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request, NotFoundException } from '@nestjs/common';
 import { OrderService } from 'src/order/services/order.service';
 import { CreateOrderDto, UpdateOrderDto } from 'src/order/entities/order.dto';
@@ -6,12 +5,6 @@ import { Order } from 'src/order/entities/Order.entity';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { UserModel } from 'src/user/entities/User.model';
 import { isValidObjectId } from 'mongoose';
-=======
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
-import { OrderService } from 'src/order/services/order.service';
-import { CreateOrderDto, UpdateOrderDto } from 'src/order/entities/order.dto';
-import { Order } from 'src/order/entities/Order.entity';
->>>>>>> origin/master
 
 @Controller('orders')
 export class OrderController {
@@ -22,7 +15,6 @@ export class OrderController {
     return this.orderService.createOrder(createOrderDto);
   }
 
-<<<<<<< HEAD
   @UseGuards(AuthGuard)
   @Post('by-company')
   async createOrderbycompany(@Body() createOrderDto: CreateOrderDto, @Request() req) {
@@ -34,8 +26,6 @@ export class OrderController {
   }
   
 
-=======
->>>>>>> origin/master
   @Get()
   async findAllOrders(): Promise<Order[]> {
     return this.orderService.findAllOrders();
@@ -55,7 +45,6 @@ export class OrderController {
   async deleteOrder(@Param('id') id: string): Promise<Order> {
     return this.orderService.deleteOrder(id);
   }
-<<<<<<< HEAD
 
   @Get('by-company/:companyId')
   async findOrdersByCompany(@Param('companyId') companyId: string): Promise<Order[]> {
@@ -65,6 +54,4 @@ export class OrderController {
 
     return this.orderService.findOrdersByCompany(companyId);
   }
-=======
->>>>>>> origin/master
 }

@@ -9,7 +9,6 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @UseGuards(AuthGuard)
-<<<<<<< HEAD
   @Post("Created-by-User")
   async createWithProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
     const userId = req.user.userId;
@@ -23,17 +22,6 @@ export class ProductController {
   }
 
 
-=======
-  @Post()
-  async createProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
-    const userId = req.user.userId;
-    const user = await UserModel.findById(userId);
-    const product = await this.productService.createProduct(createProductDto, user);
-    return product;
-  } 
-
-  @UseGuards(AuthGuard)
->>>>>>> origin/master
   @Get()
   async findAllProducts(): Promise<Product[]> {
     return this.productService.findAllProducts();
@@ -75,8 +63,4 @@ export class ProductController {
   async findProductsByCompany(@Param('companyId') companyId: string): Promise<Product[]> {
     return this.productService.findProductsByCompany(companyId);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master

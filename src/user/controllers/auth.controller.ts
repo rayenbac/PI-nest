@@ -1,6 +1,5 @@
   import { Body, Controller, Get, Post, Query, Req, Request, Res, UnauthorizedException, UseGuards} from '@nestjs/common';
   import { AuthService } from '../services/auth.service';
-<<<<<<< HEAD
 import { UserModel } from '../entities/User.model';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -11,19 +10,6 @@ import { AuthGuard } from '@nestjs/passport';
 
     
   
-=======
-import { AuthGuard } from '../entities/jwt-auth.guard';
-import { UserModel } from '../entities/User.model';
-import { ChatGateway } from '../entities/chat.gateway';
-import { MessageService } from '../services/message.service';
-
-  @Controller('auth')
-  export class AuthController {
-    constructor(private readonly authService: AuthService,
-      private readonly chatGateway: ChatGateway,
-      private readonly messageService: MessageService, 
-    ) {}
->>>>>>> origin/master
 
     @Post('login')
 async login(@Body('login') login: string, @Body('password') password: string, @Res() res) {
@@ -70,7 +56,6 @@ async changePassword(@Request() req, @Body() body: { currentPassword: string, ne
         // Handle errors
         throw new UnauthorizedException('Failed to change password');
     }
-<<<<<<< HEAD
 }
 
 
@@ -78,35 +63,4 @@ async changePassword(@Request() req, @Body() body: { currentPassword: string, ne
 
     
 }
-=======
-
-}
-@UseGuards(AuthGuard)
-@Post('messages')
-async sendMessage(@Body() messageData: any, @Request() req) {
-  const { senderId, recipientId, content } = messageData;
-
-  // Save the message to the database
-  const message = await this.messageService.createMessage(senderId, recipientId, content);
-
-  // Emit the message to the recipient's WebSocket connection
-  this.chatGateway.sendMessageToUser(recipientId, message);
-
-  return { statusCode: 200, message: 'Message sent successfully' };
-}
-
-  @UseGuards(AuthGuard)
-  @Get('messages')
-  async getChatHistory(@Query('recipientId') recipientId: string, @Request() req) {
-    const userId = req.user.userId;
-
-    // Get the chat history between the current user and the recipient
-    const chatHistory = await this.messageService.getChatHistory(userId, recipientId);
-
-    return { statusCode: 200, chatHistory };
-  }
-  
-}
-
->>>>>>> origin/master
   

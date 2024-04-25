@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrderService } from './order.service';
-<<<<<<< HEAD
 import { getModelToken } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from '../entities/order.entity';
@@ -32,24 +31,11 @@ describe('OrderService', () => {
 
     service = module.get<OrderService>(OrderService);
     mockOrderModel = module.get<Model<Order>>(getModelToken('Order'));
-=======
-
-describe('OrderService', () => {
-  let service: OrderService;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [OrderService],
-    }).compile();
-
-    service = module.get<OrderService>(OrderService);
->>>>>>> origin/master
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-<<<<<<< HEAD
 
   describe('createOrder', () => {
     it('should create a new order', async () => {
@@ -109,6 +95,4 @@ describe('OrderService', () => {
       expect(mockOrderModel.findByIdAndDelete).toHaveBeenCalledWith(orderId);
     });
   });
-=======
->>>>>>> origin/master
 });

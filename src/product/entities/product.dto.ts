@@ -7,11 +7,8 @@ export class CreateProductDto {
     readonly quantity: number;
     readonly type: string;
     readonly supplier: string;
-<<<<<<< HEAD
 
 
-=======
->>>>>>> origin/master
   }
   
   export class UpdateProductDto {
@@ -21,10 +18,7 @@ export class CreateProductDto {
     readonly quantity?: number;
     readonly type?: string;
     readonly supplier?: string;
-<<<<<<< HEAD
 
 
-=======
->>>>>>> origin/master
   }
   

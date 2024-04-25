@@ -3,7 +3,6 @@ import { InvoiceController } from './controllers/invoice.controller';
 import { InvoiceModel } from './entities/Invoice.entity';
 import { InvoiceService } from './services/invoice.service';
 import { databaseProviders } from 'src/config/database.config';
-<<<<<<< HEAD
 import { AuthService } from 'src/user/services/auth.service';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { UserModule } from 'src/user/user.module';
@@ -22,12 +21,6 @@ import { jwtConstants } from 'src/user/entities/constants';
       ],
     controllers: [InvoiceController],
     providers: [InvoiceService, InvoiceModel,AuthService,AuthGuard,
-=======
-
-@Module({
-    controllers: [InvoiceController],
-    providers: [InvoiceService, InvoiceModel,
->>>>>>> origin/master
         ...databaseProviders,
         { provide: 'INVOICE_MODEL', useValue: InvoiceModel },
     ],
