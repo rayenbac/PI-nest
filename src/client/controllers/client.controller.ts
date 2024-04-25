@@ -1,15 +1,26 @@
 import { ClientService } from 'src/client/services/client.service';
 import { CreateClientDto, UpdateClientDto } from 'src/client/entities/client.dto';
 import { Client } from 'src/client/entities/Client.entity';
+import { Body, Controller, Delete, Get,NotFoundException,Param, Post, Put, Request, UseGuards} from '@nestjs/common';
+import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { OrderService } from 'src/order/services/order.service';
-import { Product } from 'src/product/entities/Product.entity';
-import { Order } from 'src/order/entities/Order.entity';
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { UserModel } from 'src/user/entities/User.model';
+import { isValidObjectId } from 'mongoose';
+
 
 @Controller('clients')
 export class ClientController {
-  constructor( private readonly clientService: ClientService,
-    private readonly orderService: OrderService) {}
+  constructor( private readonly clientService: ClientService,) {}
+
+    @UseGuards(AuthGuard)
+    @Post('by-company')
+    async createClientebycompany(@Body() CreateClientDto: CreateClientDto, @Request() req) {
+      const userId = req.user.userId;
+      const user = await UserModel.findById(userId);
+      const clientData = { ...CreateClientDto, companyId: user.company._id }; // Set the company ID from the user
+      const client = await this.clientService.createClientWithUser(clientData, user);
+      return client;
+    }
 
   @Post()
   async createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {
@@ -35,15 +46,11 @@ export class ClientController {
   async deleteClient(@Param('id') id: string): Promise<Client> {
     return this.clientService.deleteClient(id);
   }
-  /*@Post(':clientId/orders')
-  async createOrder(@Param('clientId') clientId: string, @Body() orderData: any): Promise<any> {
-    return this.clientService.createOrder(clientId, orderData);
-  }*/
-  @Post(':clientId/orders')
-  async createOrder(
-    @Param('clientId') clientId: string,
-    @Body() product: Product
-  ): Promise<Order> {
-    return this.clientService.createOrder(clientId, product);
+  @Get('by-company/:companyId')
+  async findClientByCompany(@Param('companyId') companyId: string): Promise<Client[]> {
+    if (!isValidObjectId(companyId)) {
+      throw new NotFoundException('Invalid company ID');
+    }
+    return this.clientService.findClientByCompany(companyId);
   }
 }

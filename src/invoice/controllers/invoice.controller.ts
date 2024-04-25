@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
 import { InvoiceService } from '../services/invoice.service';
 import { CreateInvoiceDto, UpdateInvoiceDto } from 'src/invoice/entities/invoice.dto';
 import { Invoice } from 'src/invoice/entities/Invoice.entity';
+import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
+import { UserModel } from 'src/user/entities/User.model';
 
 @Controller('invoices')
 export class InvoiceController {
@@ -31,4 +33,15 @@ export class InvoiceController {
   async deleteInvoice(@Param('id') id: string): Promise<Invoice> {
     return this.invoiceService.deleteInvoice(id);
   }
+
+  @UseGuards(AuthGuard)
+  @Post('by-company')
+  async createInvoicebycompany(@Body() createInvoiceDto: CreateInvoiceDto, @Request() req) {
+    const userId = req.user.userId;
+    const user = await UserModel.findById(userId);
+    const invoiceData = { ...createInvoiceDto, companyId: user.company._id }; // Set the company ID from the user
+    const invoice = await this.invoiceService.createInvoiceWithUser(invoiceData, user);
+    return invoice;
+  }
+  
 }

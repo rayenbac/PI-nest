@@ -1,23 +1,33 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
 import { ProductService } from 'src/product/services/product.service';
 import { CreateProductDto, UpdateProductDto } from 'src/product/entities/product.dto';
-import { Product } from '../entities/Product.entity';
-
+import { Product } from 'src/product/entities/Product.entity';
+import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
+import { UserModel } from 'src/user/entities/User.model';
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @UseGuards(AuthGuard)
+  @Post("Created-by-User")
+  async createWithProduct(@Body() createProductDto: CreateProductDto, @Request() req) {
+    const userId = req.user.userId;
+    const user = await UserModel.findById(userId);
+    const product = await this.productService.createProductWithUser(createProductDto, user);
+    return product;
+  } 
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(createProductDto);
   }
 
+
   @Get()
   async findAllProducts(): Promise<Product[]> {
     return this.productService.findAllProducts();
   }
-
-  @Get(':id')
+  
+  @Get('getbyid/:id')
   async findProductById(@Param('id') id: string): Promise<Product> {
     return this.productService.findProductById(id);
   }
@@ -30,5 +40,27 @@ export class ProductController {
   @Delete(':id')
   async deleteProduct(@Param('id') id: string): Promise<Product> {
     return this.productService.deleteProduct(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('created')
+  async findProductsCreatedByUser(@Request() req): Promise<Product[]> {
+    try {
+      const userId = req.user.userId;
+      const products = await this.productService.findProductsCreatedByUser(userId);
+      
+      // Log the retrieved products for debugging
+      console.log('Products created by user:', products);
+  
+      return products;
+    } catch (error) {
+      // Log any errors that occur during the process
+      console.error('Error retrieving products:', error.message);
+      throw error; // Rethrow the error to propagate it
+    }
+  }
+@Get('by-company/:companyId')
+  async findProductsByCompany(@Param('companyId') companyId: string): Promise<Product[]> {
+    return this.productService.findProductsByCompany(companyId);
   }
 }

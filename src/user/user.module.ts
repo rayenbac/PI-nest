@@ -14,7 +14,7 @@ import { CompanyModel } from 'src/company/entities/company.entity';
 import { CompanyService } from 'src/company/services/company.service';
 import { CompanyModule } from 'src/company/company.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GoogleService } from './google/google.service';
+//import { GoogleService } from './google/google.service';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { GoogleService } from './google/google.service';
     UserService,
     CompanyService,
     AuthService,
-    GoogleService,
+    //GoogleService,
     ...databaseProviders,
     { provide: 'USER_MODEL', useValue: UserModel }, // No need for this anymore
     { provide: 'COMPANY_MODEL', useValue: CompanyModel },
