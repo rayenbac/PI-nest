@@ -10,35 +10,35 @@ import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './entities/constants';
 import { MulterModule } from '@nestjs/platform-express';
 import * as multer from 'multer';
-import { CompanyModel } from 'src/company/entities/company.entity';
-import { CompanyService } from 'src/company/services/company.service';
-import { CompanyModule } from 'src/company/company.module';
-import { MongooseModule } from '@nestjs/mongoose';
-//import { GoogleService } from './google/google.service';
+import { MessageService } from './services/message.service';
+import { ChatGateway } from './entities/chat.gateway';
+import { MessageModel } from './entities/message.model';
 
 @Module({
   imports: [
-    CompanyModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
+      secret:jwtConstants.secret,
+      signOptions: { expiresIn: '1h' }, 
     }),
     MulterModule.register({
       dest: '/uploads/', // Specify the destination folder for uploaded files
-    }),    
+    }),
   ],
-  controllers: [UserController, AuthController],
+  controllers: [UserController,AuthController],
   providers: [
-    UserService,
-    CompanyService,
+    UserService, 
+    UserModel, 
     AuthService,
-    //GoogleService,
+    JwtService,
+    MessageService,
+    ChatGateway,
     ...databaseProviders,
-    { provide: 'USER_MODEL', useValue: UserModel }, // No need for this anymore
-    { provide: 'COMPANY_MODEL', useValue: CompanyModel },
+    { provide: 'USER_MODEL', useValue: UserModel },
+    { provide: 'MessageModel', useValue: MessageModel }, // Assuming you have a MessageModel defined
   ],
-  exports: [UserService, 'USER_MODEL'], // Export USER_MODEL if needed
+  
+  exports: [UserService, UserModel,AuthService],
 })
 export class UserModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -47,4 +47,5 @@ export class UserModule implements NestModule {
       .apply(upload.single('picture')) // 'picture' is the name of the field in your form data
       .forRoutes('users/uploadPicture'); // Define the route where you want to handle file uploads
   }
+
 }

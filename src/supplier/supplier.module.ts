@@ -3,6 +3,7 @@ import { SupplierController } from './controllers/supplier.controller';
 import { SupplierModel } from './entities/Supplier.model';
 import { SupplierService } from './services/supplier.service';
 import { databaseProviders } from 'src/config/database.config';
+<<<<<<< HEAD
 import { UserModule } from 'src/user/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -21,6 +22,12 @@ import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
       ],
     controllers: [SupplierController],
     providers: [SupplierService, SupplierModel,AuthService, AuthGuard,
+=======
+
+@Module({
+    controllers: [SupplierController],
+    providers: [SupplierService, SupplierModel,
+>>>>>>> origin/master
         ...databaseProviders,
         { provide: 'SUPPLIER_MODEL', useValue: SupplierModel },
     ],

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request, NotFoundException } from '@nestjs/common';
 import { SupplierService } from 'src/supplier/services/supplier.service';
 import { CreateSupplierDto, UpdateSupplierDto } from 'src/supplier/entities/supplier.dto';
@@ -5,11 +6,18 @@ import { Supplier } from 'src/supplier/entities/Supplier.model';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { UserModel } from 'src/user/entities/User.model';
 import { isValidObjectId } from 'mongoose';
+=======
+import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { SupplierService } from 'src/supplier/services/supplier.service';
+import { CreateSupplierDto, UpdateSupplierDto } from 'src/supplier/entities/supplier.dto';
+import { Supplier } from 'src/supplier/entities/Supplier.model';
+>>>>>>> origin/master
 
 @Controller('suppliers')
 export class SupplierController {
   constructor(private readonly supplierService: SupplierService) {}
 
+<<<<<<< HEAD
 
   @UseGuards(AuthGuard)
   @Post('by-company')
@@ -21,6 +29,8 @@ export class SupplierController {
     return supplier;
   }
 
+=======
+>>>>>>> origin/master
   @Post()
   async createSupplier(@Body() createSupplierDto: CreateSupplierDto): Promise<Supplier> {
     return this.supplierService.createSupplier(createSupplierDto);
@@ -45,6 +55,7 @@ export class SupplierController {
   async deleteSupplier(@Param('id') id: string): Promise<Supplier> {
     return this.supplierService.deleteSupplier(id);
   }
+<<<<<<< HEAD
 
   @Get('by-company/:companyId')
   async findsuplliersByCompany(@Param('companyId') companyId: string): Promise<Supplier[]> {
@@ -55,4 +66,6 @@ export class SupplierController {
     return this.supplierService.findsuppliersByCompany(companyId);
   }
 
+=======
+>>>>>>> origin/master
 }

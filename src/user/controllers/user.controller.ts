@@ -3,6 +3,7 @@ import { UserService } from 'src/user/services/User.service';
 import { CreateUserDto, UpdateUserDto } from 'src/user/entities/user.dto';
 import { User } from 'src/user/entities/User.model';
 import { AuthGuard } from '../entities/jwt-auth.guard';
+<<<<<<< HEAD
 import { CreateCompanyDto } from 'src/company/entities/company.dto';
 import { CompanyService } from 'src/company/services/company.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -10,10 +11,18 @@ import path from 'path';
 import * as fs from 'fs';
 import { SuperAdminGuard } from '../entities/superadmin.guard';
 import mongoose from 'mongoose';
+=======
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MulterFile } from 'multer';
+import path from 'path';
+import * as fs from 'fs';
+import { SuperAdminGuard } from '../entities/superadmin.guard';
+>>>>>>> origin/master
 
 
 @Controller('users')
 export class UserController {
+<<<<<<< HEAD
   constructor(private readonly userService: UserService, private readonly companyService: CompanyService) {}
 
   @Post('register')
@@ -36,6 +45,14 @@ async AssignUser(@Body() createUserDto: CreateUserDto, @Body('companyId') compan
 
 
 
+=======
+  constructor(private readonly userService: UserService) {}
+
+  @Post('register')
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.createUser(createUserDto);
+  }
+>>>>>>> origin/master
   @UseGuards(AuthGuard)
   @Get()
   async findAllUsers(): Promise<User[]> {

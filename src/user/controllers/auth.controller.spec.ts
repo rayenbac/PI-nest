@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { expect } from 'chai';
+>>>>>>> origin/master
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';
@@ -25,7 +29,11 @@ describe('AuthController', () => {
   });
 
   it('should be defined', () => {
+<<<<<<< HEAD
     expect(controller).toBeDefined();
+=======
+    expect(controller).to.be.an('object');
+>>>>>>> origin/master
   });
 
   describe('login', () => {
@@ -34,6 +42,7 @@ describe('AuthController', () => {
       jest.spyOn(authService, 'login').mockResolvedValue(mockResult);
 
       const res = {
+<<<<<<< HEAD
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
@@ -42,12 +51,22 @@ describe('AuthController', () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ message: 'Login successful', token: 'mockToken' });
+=======
+        status: () => res,
+        json: (data: any) => {
+          expect(data).to.deep.equal({ message: 'Login successful', token: 'mockToken' });
+        },
+      };
+
+      await controller.login('testuser', 'password123', res);
+>>>>>>> origin/master
     });
 
     it('should return 401 on unsuccessful login', async () => {
       jest.spyOn(authService, 'login').mockResolvedValue(null);
 
       const res = {
+<<<<<<< HEAD
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
       };
@@ -97,4 +116,18 @@ describe('AuthController', () => {
       expect(result).toEqual(mockUser);
     });
   });
+=======
+        status: () => res,
+        json: (data: any) => {
+          expect(data).to.deep.equal({ message: 'Unauthorized' });
+        },
+      };
+
+      await controller.login('testuser', 'wrongpassword', res);
+    });
+  });
+
+  // Other describe blocks and tests...
+
+>>>>>>> origin/master
 });

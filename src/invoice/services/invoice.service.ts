@@ -4,7 +4,10 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Invoice } from '../entities/Invoice.entity';
 import { CreateInvoiceDto, UpdateInvoiceDto } from 'src/invoice/entities/invoice.dto';
+<<<<<<< HEAD
 import { User } from 'src/user/entities/User.model';
+=======
+>>>>>>> origin/master
 
 @Injectable()
 export class InvoiceService {
@@ -15,6 +18,7 @@ export class InvoiceService {
     return createdInvoice.save();
   }
 
+<<<<<<< HEAD
   async createInvoiceWithUser(CreateInvoiceDto: CreateInvoiceDto, user: User): Promise<Invoice> {
     const createdInvoice = new this.invoiceModel({
       ...CreateInvoiceDto,
@@ -24,6 +28,8 @@ export class InvoiceService {
     return createdInvoice.save();
   }
 
+=======
+>>>>>>> origin/master
   async findAllInvoices(): Promise<Invoice[]> {
     return this.invoiceModel.find().exec();
   }
@@ -38,8 +44,11 @@ export class InvoiceService {
 
   async deleteInvoice(invoiceId: string): Promise<Invoice> {
     return this.invoiceModel.findByIdAndDelete(invoiceId).exec();
+<<<<<<< HEAD
   }  
   async findInvoiceByCompany(companyId: string): Promise<Invoice[]> {
     return this.invoiceModel.find({ company: companyId }).populate('company').exec();
+=======
+>>>>>>> origin/master
   }
 }

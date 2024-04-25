@@ -4,12 +4,16 @@ import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { Supplier } from 'src/supplier/entities/Supplier.model';
 import { CreateSupplierDto, UpdateSupplierDto } from 'src/supplier/entities/supplier.dto';
+<<<<<<< HEAD
 import { User } from 'src/user/entities/User.model';
+=======
+>>>>>>> origin/master
 
 @Injectable()
 export class SupplierService {
   constructor(@Inject('SUPPLIER_MODEL') private readonly supplierModel: Model<Supplier>) {}
 
+<<<<<<< HEAD
 
   async createSupplierWithUser(CreateSupplierDto: CreateSupplierDto, user: User): Promise<Supplier> {
     const createdSupplier = new this.supplierModel({
@@ -20,6 +24,8 @@ export class SupplierService {
     return createdSupplier.save();
   }
 
+=======
+>>>>>>> origin/master
   async createSupplier(createSupplierDto: CreateSupplierDto): Promise<Supplier> {
     const createdSupplier = new this.supplierModel(createSupplierDto);
     return createdSupplier.save();
@@ -40,9 +46,12 @@ export class SupplierService {
   async deleteSupplier(supplierId: string): Promise<Supplier> {
     return this.supplierModel.findByIdAndDelete(supplierId).exec();
   }
+<<<<<<< HEAD
 
   async findsuppliersByCompany(companyId: string): Promise<Supplier[]> {
     return this.supplierModel.find({ company: companyId }).exec();
   }
 
+=======
+>>>>>>> origin/master
 }

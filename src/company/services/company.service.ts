@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// company.service.ts
+>>>>>>> origin/master
 import { Injectable, Inject } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { CreateCompanyDto, UpdateCompanyDto } from '../entities/company.dto';
@@ -30,4 +34,8 @@ export class CompanyService {
   async remove(id: string): Promise<Company> {
     return this.companyModel.findByIdAndDelete(id).exec();
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

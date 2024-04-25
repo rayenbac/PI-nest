@@ -18,4 +18,8 @@ export class RateLimitMiddleware implements NestMiddleware {
     // Apply rate limiting middlewared
     this.limiter(req, res, next);
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master

@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards, Request } from '@nestjs/common';
 import { InvoiceService } from '../services/invoice.service';
 import { CreateInvoiceDto, UpdateInvoiceDto } from 'src/invoice/entities/invoice.dto';
 import { Invoice } from 'src/invoice/entities/Invoice.entity';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { UserModel } from 'src/user/entities/User.model';
+=======
+import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { InvoiceService } from '../services/invoice.service';
+import { CreateInvoiceDto, UpdateInvoiceDto } from 'src/invoice/entities/invoice.dto';
+import { Invoice } from 'src/invoice/entities/Invoice.entity';
+>>>>>>> origin/master
 
 @Controller('invoices')
 export class InvoiceController {
@@ -33,6 +40,7 @@ export class InvoiceController {
   async deleteInvoice(@Param('id') id: string): Promise<Invoice> {
     return this.invoiceService.deleteInvoice(id);
   }
+<<<<<<< HEAD
 
   @UseGuards(AuthGuard)
   @Post('by-company')
@@ -44,4 +52,6 @@ export class InvoiceController {
     return invoice;
   }
   
+=======
+>>>>>>> origin/master
 }

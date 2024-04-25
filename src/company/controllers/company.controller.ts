@@ -2,7 +2,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { CompanyService } from '../services/company.service';
 import { CreateCompanyDto, UpdateCompanyDto } from '../entities/company.dto';
+<<<<<<< HEAD
 import { Company } from '../entities/company.entity';
+=======
+>>>>>>> origin/master
 
 
 @Controller('companies')
@@ -30,7 +33,11 @@ export class CompanyController {
   }
 
   @Delete(':id')
+<<<<<<< HEAD
   async deleteCompany(@Param('id') id: string): Promise<Company> {
+=======
+  remove(@Param('id') id: string) {
+>>>>>>> origin/master
     return this.companyService.remove(id);
   }
 }

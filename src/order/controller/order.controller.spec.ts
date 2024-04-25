@@ -16,6 +16,7 @@ describe('OrderController', () => {
     expect(controller).toBeDefined();
   });
 });
+<<<<<<< HEAD
 
 
 //   describe('createOrder', () => {
@@ -134,3 +135,5 @@ describe('OrderController', () => {
 //     });
 //   });
 // });
+=======
+>>>>>>> origin/master
