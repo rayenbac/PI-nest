@@ -7,6 +7,8 @@ export const ClientSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   reference: { type: String, required: true },
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Reference to user
+  company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' }, // Reference to Company
 });
 
 export interface Client extends mongoose.Document {
@@ -14,6 +16,8 @@ export interface Client extends mongoose.Document {
   phoneNumber: string;
   reference: string;
   orders: Order[];
+  createdBy: mongoose.Types.ObjectId;
+  company: mongoose.Types.ObjectId; 
 }
 
 export const ClientModel = mongoose.model<Client>('Client', ClientSchema);
