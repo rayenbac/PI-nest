@@ -52,7 +52,7 @@ export class ClientService {
 
     // on va creer l'order
     const order = new OrderModel({
-      totalPrice: product.price,
+      totalPrice: product.Salingprice,
       status: 'Pending', 
       client: client._id,
       products: [product._id], // association avec le produits

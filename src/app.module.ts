@@ -14,6 +14,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
 
 
+
 @Module({
   imports: [UserModule, ClientModule, OrderModule, ProductModule, SupplierModule, InvoiceModule,CompanyModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),

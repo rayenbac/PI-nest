@@ -3,7 +3,8 @@
 export class CreateProductDto {
     readonly nameP: string;
     readonly discount: number;
-    readonly price: number;
+    readonly Salingprice: number;
+    readonly Buyingprice: number;
     readonly quantity: number;
     readonly type: string;
     readonly supplier: string;
@@ -14,7 +15,8 @@ export class CreateProductDto {
   export class UpdateProductDto {
     readonly nameP?: string;
     readonly discount?: number;
-    readonly price?: number;
+    readonly Salingprice?:number;
+    readonly Buyingprice?: number;
     readonly quantity?: number;
     readonly type?: string;
     readonly supplier?: string;
