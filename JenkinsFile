@@ -5,8 +5,10 @@ pipeline {
         nodejs "node"
     }
     environment {
-        registryCredentials = "nexus"
-        registry = "192.168.100.10:8083"
+        // registryCredentials = "nexus"
+        // registry = "192.168.100.10:8083"
+          DOCKERHUB_CREDENTIALS = credentials('benelbeyskander465-dockerhub')
+            DOCKER_COMPOSE_VERSION = '1.29.2' 
     }
 
     stages {
@@ -16,7 +18,36 @@ pipeline {
                 sh 'npm install'
             }
         }
-        
+           stage('docker Build') {
+                steps {
+                    sh 'docker build -t benelbeyskander465/erpapp-backend .'
+                }
+            }
+         stage('Login to Docker Hub') {
+                        steps {
+                            sh "echo \$DOCKERHUB_CREDENTIALS_PSW | docker login -u \$DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                        }
+                    }
+                    stage('docker push') {
+                                steps {
+
+
+                                      sh 'docker push benelbeyskander465/erpapp-backend'
+                                }
+                            }
+                             stage('Run Docker Compose') {
+                                                steps {
+                                                    script {
+
+
+                                                        // Pull the Docker image
+                                                        sh 'docker pull benelbeyskander465/erpapp-backend'
+
+                                                        // Run Docker Compose
+                                                        sh 'docker compose up -d'
+                                                    }
+                                                }
+                                            }
         // stage('Building images (node and mongo)') {
         //     steps {
         //         script {
@@ -34,18 +65,18 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Run application ') {
-            steps{
-               script {
-                  docker.withRegistry("http://"+registry, registryCredentials
-         )  {
-                         sh('docker pull $registry/nodemongoapp:6.0 ')
-                         sh('docker-compose up -d ')
-        }
-    } 
+    //     stage('Run application ') {
+    //         steps{
+    //            script {
+    //               docker.withRegistry("http://"+registry, registryCredentials
+    //      )  {
+    //                      sh('docker pull $registry/nodemongoapp:6.0 ')
+    //                      sh('docker-compose up -d ')
+    //     }
+    // } 
   }
 }
 
            
-    }
-}
+    
+
