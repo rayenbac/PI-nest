@@ -25,7 +25,6 @@ export class OrderController {
     return order;
   }
   
-
   @Get()
   async findAllOrders(): Promise<Order[]> {
     return this.orderService.findAllOrders();
@@ -54,4 +53,6 @@ export class OrderController {
 
     return this.orderService.findOrdersByCompany(companyId);
   }
+
+  
 }

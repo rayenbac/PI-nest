@@ -1,10 +1,12 @@
 // order.service.ts
 
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
 import { Model, Types } from 'mongoose';
 import { Order } from 'src/order/entities/Order.entity';
 import { CreateOrderDto, UpdateOrderDto } from 'src/order/entities/order.dto';
 import { User } from 'src/user/entities/User.model';
+import * as nodemailer from 'nodemailer';
+
 
 @Injectable()
 export class OrderService {
@@ -44,3 +46,5 @@ export class OrderService {
     return this.orderModel.find({ company: companyId }).populate('company').populate('products').populate('client').exec();
   }
 }
+
+
