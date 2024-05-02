@@ -25,7 +25,7 @@ export class ProductService {
   }
 
   async findAllProducts(): Promise<Product[]> {
-    return this.productModel.find().exec();
+    return this.productModel.find().populate('company').exec();
   }
 
   async findProductById(productId: string): Promise<Product> {
