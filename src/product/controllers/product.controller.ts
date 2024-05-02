@@ -14,12 +14,14 @@ export class ProductController {
     const userId = req.user.userId;
     const user = await UserModel.findById(userId);
     const product = await this.productService.createProductWithUser(createProductDto, user);
+
     return product;
   } 
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.createProduct(createProductDto);
   }
+  
 
 
   @Get()

@@ -72,10 +72,7 @@ async deactivateUser(@Param('id') id: string): Promise<User> {
   @Post('assign')
 async AssignUser(@Body() createUserDto: CreateUserDto, @Body('companyId') companyId: string): Promise<User> {
     // Create the user with the specified company ID
-    const newUser = await this.userService.createUser(createUserDto, companyId);
-    await this.userService.sendUserEmail(createUserDto.login, createUserDto.password);
-
-  return newUser;
+    return this.userService.createUser(createUserDto, companyId);
 }
 
   /*

@@ -30,7 +30,9 @@ const UserSchema = new mongoose.Schema({
   role: { type: String, enum: ['admin', 'salesManager', 'stockManager', 'auditor','SuperAdmin'], default: 'admin' },
   company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company'  },
   picture: { type: String },
-  isActive: { type: Boolean, default: true }
+  isActive: { type: Boolean, default: true },
+  socketId: { type: String },
+  socket: { type: mongoose.Schema.Types.Mixed } 
 
 });
 
@@ -56,6 +58,8 @@ export interface User extends mongoose.Document {
   company?: mongoose.Types.ObjectId | Company;
   picture?: string;
   isActive?: Boolean;
+  socketId: string;
+  socket: any; 
 
 }
 export const UserModel = mongoose.models.User || mongoose.model<User>('User', UserSchema);

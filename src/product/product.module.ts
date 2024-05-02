@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { ProductController } from './controllers/product.controller';
 import { ProductService } from './services/product.service';
 import { ProductModel } from './entities/Product.entity';
@@ -9,6 +9,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthGuard } from 'src/user/entities/jwt-auth.guard';
 import { jwtConstants } from 'src/user/entities/constants';
+import { SocketModule } from 'src/socket/socket.module';
+import { NotificationService } from 'src/socket/notification/notification.service';
+
+
+
 
 @Module({
     imports: [
@@ -20,7 +25,7 @@ import { jwtConstants } from 'src/user/entities/constants';
         }),
       ],
     controllers: [ProductController],
-    providers: [ProductService, ProductModel, AuthService, AuthGuard, ...databaseProviders, { provide: 'PRODUCT_MODEL', useValue: ProductModel }],
+    providers: [ProductService, ProductModel, AuthService, AuthGuard,NotificationService, ...databaseProviders, { provide: 'PRODUCT_MODEL', useValue: ProductModel },Logger],
     exports: [ProductService, ProductModel],
 })
 export class ProductModule {}

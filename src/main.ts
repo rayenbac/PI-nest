@@ -1,21 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as path from 'path'; // Import path module
+import * as path from 'path';
+import { IoAdapter } from '@nestjs/platform-socket.io';
+import * as cors from 'cors';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Enable CORS with specific options
+  // Activer CORS avec des options spécifiques
   app.enableCors({
-    origin: 'http://localhost:4200', // Allow requests from this origin
-    methods: 'GET,PUT,POST,DELETE', // Allow these HTTP methods
-    allowedHeaders: 'Content-Type, Authorization', // Allow these headers
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+    origin: 'http://localhost:4200', // Autoriser les requêtes en provenance de ce domaine
+    methods: 'GET,PUT,POST,DELETE', // Autoriser ces méthodes HTTP
+    allowedHeaders: 'Content-Type, Authorization', // Autoriser ces en-têtes
+    credentials: true, // Autoriser les demandes avec des cookies ou des en-têtes d'autorisation
   });
 
-  // Serve static files from the public directory
+  // Servir les fichiers statiques depuis le répertoire public
   app.useStaticAssets(path.join(__dirname, '..', 'public'));
+
 
   await app.listen(3000);
 }

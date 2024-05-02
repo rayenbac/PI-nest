@@ -12,20 +12,25 @@ import { LoggerMiddleware } from './config/logging.interceptor';
 import { SessionMiddleware } from './user/entities/session.middleware';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
+import { SocketModule } from './socket/socket.module';
 
 
 @Module({
-  imports: [UserModule, ClientModule, OrderModule, ProductModule, SupplierModule, InvoiceModule,CompanyModule,
+  imports: [
+    UserModule,
+    ClientModule,
+    OrderModule,
+    ProductModule,
+    SupplierModule,
+    InvoiceModule,
+    CompanyModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: jwtConstants.secret, 
       signOptions: { expiresIn: '1h' }, 
     }),
-    
-    
-
+    SocketModule,
   ],
-
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
@@ -35,7 +40,7 @@ export class AppModule implements NestModule {
     // Apply SessionMiddleware for all routes except /auth/login
     consumer.apply(SessionMiddleware).exclude('http://localhost:3000/auth/login').forRoutes('*');
 
-    // Apply CORS middleware to all routes
+    // Apply CORS middleware for all routes
     consumer.apply((req, res, next) => {
       res.header('Access-Control-Allow-Origin', 'http://localhost:4200'); // Update with your Angular app's URL
       res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
