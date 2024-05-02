@@ -8,24 +8,37 @@ import { CreateCompanyDto } from 'src/company/entities/company.dto';
 import * as multer from 'multer';
 import * as fs from 'fs';
 import { AuthService } from './auth.service';
+import * as mailjet from 'node-mailjet';
 
 @Injectable()
 export class UserService {
+
+  private readonly mailjetClient;
   constructor(
     @Inject('USER_MODEL') private readonly userModel: Model<User>,
     private readonly companyService: CompanyService,
-  private readonly  authService: AuthService) {}
+  private readonly  authService: AuthService,
+  
+  ) {
+
+    this.mailjetClient = mailjet.connect('f0d1f00135c86c5beb143f0052226895', '991d774ee912ba9666bfac369724ba27', {
+      version: 'v3.1',
+      perform_api_call: true,
+  })
+  }
 
   async createUser(createUserDto: CreateUserDto, companyId: string): Promise<User> {
-  
-
     const userWithCompany = new this.userModel({
       ...createUserDto,
       company: companyId,
     });
 
-    return userWithCompany.save();
-  }
+
+    await this.sendActiviationEmail(createUserDto.login, createUserDto.password);
+
+    return userWithCompany;
+}
+
 
   async findAllUsers(): Promise<User[]> {
     return this.userModel.find().populate('company').exec();
@@ -88,17 +101,69 @@ export class UserService {
   }
 
 
+  async sendActiviationEmail(login: string, password: string): Promise<void> {
+    const request = this.mailjetClient.post('send', { version: 'v3.1' }).request({
+      Messages: [
+        {
+          From: { Email: 'malek.zaidi@esprit.tn', Name: 'ERPAPP' }, // Change this to your email and app name
+          To: [{ Email: login }],
+          Subject: 'Account Information',
+          HTMLPart: `
+            <html>
+              <head>
+                <style>
+                  body {
+                    font-family: Arial, sans-serif;
+                  }
+                  .container {
+                    max-width: 600px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: #f9f9f9;
+                  }
+                  h1 {
+                    text-align: center;
+                    color: #333;
+                  }
+                  p {
+                    margin-bottom: 20px;
+                    color: #666;
+                  }
+                  .reset-link {
+                    display: block;
+                    text-align: center;
+                    padding: 10px 0;
+                    background-color: #007bff;
+                    color: #fff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <h1>Account Information</h1>
+                  <p>Your account has been created successfully. Here are your login credentials:</p>
+                  <p><strong>Login:</strong> ${login}</p>
+                  <p><strong>Password:</strong> ${password}</p>
+                </div>
+              </body>
+            </html>
+          `,
+        },
+      ],
+    });
 
-  async sendUserEmail(email: string, password: string): Promise<void> {
-    try {
-      // Call your mail service to send the activation email
-      await this.authService.sendEmail(email, password);
-    } catch (error) {
-      console.error('Error sending activation email:', error);
-      // Handle errors here if necessary
-      throw new Error('Failed to send activation email');
-    }
+    await request.catch(err => {
+      console.error('Error sending email:', err);
+      throw err;
+    });
   }
+  
+
+
   }
 
   

@@ -13,6 +13,7 @@ import { SessionMiddleware } from './user/entities/session.middleware';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { RateLimitMiddleware } from './user/entities/rate-limit.middleware';
 import { SocketModule } from './socket/socket.module';
+import { NotificationModule } from './notification/notification.module';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { SocketModule } from './socket/socket.module';
       signOptions: { expiresIn: '1h' }, 
     }),
     SocketModule,
+    NotificationModule,
   ],
 })
 export class AppModule implements NestModule {

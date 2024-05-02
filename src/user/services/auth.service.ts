@@ -155,23 +155,8 @@ export class AuthService {
     });
   }
 
-/////rayen
-  async sendEmail(email: string, password: string): Promise<void> {
-    const request = this.mailjetClient.post('send', { version: 'v3.1' }).request({
-      Messages: [
-        {
-          From: { Email: 'malek.zaidi@esprit.tn', Name: 'TNF SUPPORT TEAM' },
-          To: [{ Email: email }],
-          TemplateID: 5772507,
-          TemplateLanguage: true,
-          Variables: {
-            email: email,
-            password: password
-          }
-        },
-      ],
-    });
-  }
+
+  
 
   async sendActivationEmail(login: string): Promise<void> {
     const request = this.mailjetClient.post('send', { version: 'v3.1' }).request({
